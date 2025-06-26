@@ -1,0 +1,108 @@
+{
+  "dueEntries": [
+    {
+      "id": 1750882746518.5374,
+      "name": "Haque TC",
+      "purpose": "Dhar",
+      "amount": 1000,
+      "date": "2025-06-30",
+      "status": "Due",
+      "category": "Due List",
+      "isEditing": false,
+      "originalAmount": 1000
+    },
+    {
+      "id": 1750882793361.5908,
+      "name": "Mahady vai TC",
+      "purpose": "Dhar",
+      "amount": 1000,
+      "date": "2025-06-18",
+      "status": "Due",
+      "category": "Due List",
+      "isEditing": false,
+      "originalAmount": 1000
+    },
+    {
+      "id": 1750882934863.2197,
+      "name": "Joy TC",
+      "purpose": "IDB refreshment",
+      "amount": 20,
+      "date": "2025-06-25",
+      "status": "Due",
+      "category": "Due List",
+      "isEditing": false,
+      "originalAmount": 20
+    },
+    {
+      "id": 1750882974413.339,
+      "name": "Robin KPI F",
+      "purpose": "before eid ul adha and versity day 100 tk",
+      "amount": 4100,
+      "date": "2025-06-20",
+      "status": "Due",
+      "category": "Due List",
+      "isEditing": false,
+      "originalAmount": 4100
+    },
+    {
+      "id": 1750921941532.653,
+      "name": "Rifat bhai TC",
+      "purpose": "Shingara 2 piece",
+      "amount": 10,
+      "date": "2025-06-24",
+      "status": "Due",
+      "category": "Due List",
+      "isEditing": false,
+      "originalAmount": 10
+    }
+  ],
+  "incomingEntries": [
+    {
+      "id": 1750883051374.6577,
+      "name": "Joy TC",
+      "purpose": "IDB PC casing replacement CNG Rent",
+      "amount": 320,
+      "date": "2025-06-25",
+      "status": "Due",
+      "category": "Incoming Funds",
+      "isEditing": false,
+      "originalAmount": 320
+    }
+  ],
+  "paidEntries": [
+    {
+      "id": 1750883078277.803,
+      "name": "Sabbir",
+      "purpose": "Singara (Collected: 20.00)",
+      "amount": 20,
+      "date": "2025-06-26",
+      "status": "Paid",
+      "category": "Due Collect (Due List)",
+      "receiptNumber": "RC-250626-022438-1",
+      "isEditing": false
+    }
+  ],
+  "loginUsers": [
+    {
+      "username": "admin",
+      "password": "62443444Mah@",
+      "securityQuestion": "",
+      "securityAnswer": ""
+    },
+    {
+      "username": "mahdi",
+      "password": "62443444",
+      "securityQuestion": "",
+      "securityAnswer": ""
+    }
+  ],
+  "dropdownNames": [
+    "Sabbir",
+    "Haque TC",
+    "Rifat bhai TC",
+    "Mahady vai TC",
+    "Joy TC",
+    "Robin KPI F"
+  ],
+  "receiptCounter": 2
+}
