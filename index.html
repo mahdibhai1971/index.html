@@ -21,7 +21,7 @@
         body {
             padding: 20px;
             background: #f9f9f9;
-            font-family: 'Inter', sans-serif; /* Changed to Inter font */
+            font-family: 'Inter', sans-serif; /* Inter font used */
         }
         header {
             display: flex;
@@ -49,14 +49,14 @@
         }
         .nav-buttons {
             margin-bottom: 20px;
-            display: flex; /* Make nav buttons flexible */
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            display: flex; /* Navigation buttons made flexible */
+            flex-wrap: wrap; /* Allowed to wrap on smaller screens */
             gap: 8px; /* Space between buttons */
         }
         .nav-buttons button {
             font-size: 14px;
             min-width: 110px;
-            padding: 8px 12px; /* Adjust padding for better look */
+            padding: 8px 12px; /* Padding adjusted for better look */
         }
         .page {
             display: none;
@@ -79,7 +79,7 @@
             color: red;
             margin-left: 3px;
         }
-        /* Popup success modal */
+        /* Popup Success Modal */
         .modal-success .modal-header {
             background-color: #198754;
             color: white;
@@ -107,7 +107,7 @@
             font-weight: bold;
             color: #0d6efd;
         }
-        /* Due Collect specific styles */
+        /* Due Collection specific styles */
         .due-collect-selection button {
             margin-right: 10px;
             margin-bottom: 10px;
@@ -123,7 +123,7 @@
             align-items: flex-end;
             gap: 10px;
             margin-bottom: 10px;
-            flex-wrap: wrap; /* Allow wrapping */
+            flex-wrap: wrap; /* Allowed to wrap */
         }
         .filter-group > div {
             flex-grow: 1;
@@ -498,7 +498,7 @@
         <div class="mb-3">
             <button class="btn btn-secondary me-2" onclick="showLoginUsers()">Show Login Users</button>
             <button class="btn btn-info me-2" onclick="showDropdownNames()">Show Dropdown Names</button>
-            <!-- Backup and Restore functions are removed as Firebase handles data persistence automatically -->
+            <!-- Note about Backup/Restore: Removed as Firebase manages persistence. -->
             <p class="mt-3 text-sm text-gray-600">
                 **Note:** Firebase automatically saves and backs up your data, so local backup/restore options have been removed. You can export your data from the Firebase console.
             </p>
@@ -673,18 +673,19 @@
     <!-- Firebase SDKs -->
     <script type="module">
         // Firebase Import statements
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, onSnapshot, query, where, writeBatch, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js"; // Updated SDK version
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, onSnapshot, query, where, writeBatch, setDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js"; // Updated SDK version
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js"; // Updated SDK version
 
         // Your web app's Firebase configuration (Please ensure these match your Firebase project)
         const firebaseConfig = {
-            apiKey: "AIzaSyATFybhif_VonFk9BKRb0UO4CrtGD-V0fk",
-            authDomain: "mahdiduetracker.firebaseapp.com",
-            projectId: "mahdiduetracker",
-            storageBucket: "mahdiduetracker.firebasestorage.app",
-            messagingSenderId: "871480411389",
-            appId: "1:871480411389:web:d8af3b38d4f178eea22a94"
+            apiKey: "AIzaSyD3wm6c52930LeSZsUIXkTyOYW-4ouCXQk",
+            authDomain: "mahdiduetracker-6c02f.firebaseapp.com",
+            projectId: "mahdiduetracker-6c02f",
+            storageBucket: "mahdiduetracker-6c02f.firebasestorage.app",
+            messagingSenderId: "301972283046",
+            appId: "1:301972283046:web:bd0ac401f7237808349e67",
+            measurementId: "G-0HJ41H0DCY"
         };
 
         // Initialize Firebase variables
@@ -695,7 +696,8 @@
         let isAuthReady = false; // Flag to ensure Firebase auth is ready
 
         // Global variables for Firebase config and App ID from Canvas environment (if available)
-        const appIdEnv = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // Using the new projectId as the default appIdEnv
+        const appIdEnv = typeof __app_id !== 'undefined' ? __app_id : 'mahdiduetracker-6c02f'; // Updated default appIdEnv
         const firebaseConfigEnv = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : firebaseConfig; // Use provided config if available, else fallback
 
         // --- Data storage variables (now populated from Firebase) ---
@@ -851,14 +853,15 @@
             });
 
             // --- Listener for Login Users (public collection for custom login) ---
-            const loginUsersQuery = query(collection(db, `artifacts/${appIdEnv}/public/loginUsers`));
+            // Changed path from /public/loginUsers to /loginUsers to fix "odd number of segments" error
+            // Now directly uses 'loginUsers' as a top-level collection
+            const loginUsersQuery = query(collection(db, `loginUsers`));
             onSnapshot(loginUsersQuery, (snapshot) => {
                 loginUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 // Ensure default admin user exists if not present
                 if (loginUsers.length === 0 || !loginUsers.some(user => user.username === 'admin')) {
-                    // Add default admin if not found. Use a fixed ID or addDoc if you want Firebase to generate.
-                    // For simplicity, let's just add it if missing and not worry about fixed ID.
-                    addDoc(collection(db, `artifacts/${appIdEnv}/public/loginUsers`), {
+                    // Add default admin if not found. For simplicity, let's just add it if missing and not worry about fixed ID.
+                    addDoc(collection(db, `loginUsers`), { // Changed path
                         username: 'admin',
                         password: 'password',
                         securityQuestion: 'We need your number to proceed — could you confirm it?',
@@ -988,6 +991,7 @@
 
                 if (userExists) {
                     loggedInUser = storedUser;
+                    localStorage.setItem('loggedInUser', username); // Store custom username in localStorage
                     document.getElementById('currentUsername').textContent = loggedInUser;
                     document.getElementById('loggedInUserDisplay').style.display = 'flex';
                     document.getElementById('mainNavButtons').style.display = 'block';
@@ -1371,7 +1375,8 @@
                         await addDoc(collection(db, `artifacts/${appIdEnv}/users/${firebaseUserId}/paidEntries`), paidRecord);
                         await deleteDoc(entryRef);
                         showSuccess('Entry successfully paid and moved to Paid Report.');
-                    } catch (error) {
+                    }
+                    catch (error) {
                         console.error("Error updating or paying due entry:", error);
                         showError("Error updating or paying entry. Please try again.");
                     }
@@ -1385,7 +1390,8 @@
                 try {
                     await updateDoc(entryRef, { status: value });
                     showSuccess('Entry status successfully updated.');
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error updating due entry status:", error);
                     showError("Error updating entry status. Please try again.");
                 }
@@ -1403,7 +1409,8 @@
                 try {
                     await deleteDoc(doc(db, `artifacts/${appIdEnv}/users/${firebaseUserId}/dueEntries`, entryId));
                     showSuccess('Entry successfully deleted!');
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error deleting due entry: ", error);
                     showError("Error deleting entry. Please try again.");
                 }
@@ -1594,7 +1601,8 @@
                 });
                 document.getElementById('incomingEntryForm').reset();
                 showSuccess('Incoming entry added successfully!');
-            } catch (e) {
+            }
+            catch (e) {
                 console.error("Error adding incoming entry: ", e);
                 showError("Error adding incoming entry. Please try again.");
             }
@@ -1664,7 +1672,8 @@
                         await addDoc(collection(db, `artifacts/${appIdEnv}/users/${firebaseUserId}/paidEntries`), paidRecord);
                         await deleteDoc(entryRef);
                         showSuccess('Entry successfully paid and moved to Paid Report.');
-                    } catch (error) {
+                    }
+                    catch (error) {
                         console.error("Error updating or paying incoming entry:", error);
                         showError("Error updating or paying entry. Please try again.");
                     }
@@ -1683,7 +1692,8 @@
                         isEditing: false
                     });
                     showSuccess('Entry successfully updated.');
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error updating incoming entry:", error);
                     showError("Error updating entry. Please try again.");
                 }
@@ -1721,7 +1731,8 @@
                         await addDoc(collection(db, `artifacts/${appIdEnv}/users/${firebaseUserId}/paidEntries`), paidRecord);
                         await deleteDoc(entryRef);
                         showSuccess('Entry successfully paid and moved to Paid Report.');
-                    } catch (error) {
+                    }
+                    catch (error) {
                         console.error("Error updating or paying incoming entry:", error);
                         showError("Error updating or paying entry. Please try again.");
                     }
@@ -1733,7 +1744,8 @@
                 try {
                     await updateDoc(entryRef, { status: value });
                     showSuccess('Entry status successfully updated.');
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error updating incoming entry status:", error);
                     showError("Error updating entry status. Please try again.");
                 }
@@ -1750,7 +1762,8 @@
                 try {
                     await deleteDoc(doc(db, `artifacts/${appIdEnv}/users/${firebaseUserId}/incomingEntries`, entryId));
                     showSuccess('Entry successfully deleted!');
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error deleting incoming entry: ", error);
                     showError("Error deleting entry. Please try again.");
                 }
@@ -1980,7 +1993,8 @@
                 try {
                     await batch.commit();
                     displayCollectionTable(source); // Re-render the collection table
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error collecting amount:", error);
                     showError("Error collecting amount. Please try again.");
                 }
@@ -2074,7 +2088,8 @@
                 try {
                     await deleteDoc(doc(db, `artifacts/${appIdEnv}/users/${firebaseUserId}/paidEntries`, entryId));
                     showSuccess('Paid entry successfully deleted!');
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error deleting paid entry: ", error);
                     showError("Error deleting entry. Please try again.");
                 }
@@ -2182,7 +2197,8 @@
             }
 
             try {
-                await addDoc(collection(db, `artifacts/${appIdEnv}/public/loginUsers`), {
+                // Now directly uses 'loginUsers' as a top-level collection
+                await addDoc(collection(db, `loginUsers`), {
                     username,
                     password,
                     securityQuestion,
@@ -2192,7 +2208,8 @@
                 document.getElementById('addLoginForm').reset();
                 loginUserModal.hide(); // Close if open to re-render
                 showLoginUsers(); // Refresh list immediately if open
-            } catch (error) {
+            }
+            catch (error) {
                 console.error("Error adding login user:", error);
                 showError("Error adding login user. Please try again.");
             }
@@ -2255,7 +2272,8 @@
             }
 
             const docId = document.getElementById('editUserDocId').value;
-            const userRef = doc(db, `artifacts/${appIdEnv}/public/loginUsers`, docId);
+            // Now directly uses 'loginUsers' as a top-level collection
+            const userRef = doc(db, `loginUsers`, docId);
             const newUsername = document.getElementById('editUsernameInput').value.trim();
             const newPassword = document.getElementById('editPasswordInput').value.trim();
             const newSecurityQuestion = document.getElementById('editSecurityQuestionInput').value;
@@ -2281,7 +2299,8 @@
                 editLoginUserModal.hide();
                 showSuccess('Login user updated successfully!');
                 showLoginUsers(); // Refresh the list
-            } catch (error) {
+            }
+            catch (error) {
                 console.error("Error updating login user:", error);
                 showError("Error updating login user. Please try again.");
             }
@@ -2310,10 +2329,12 @@
 
             showConfirmation('Are you sure you want to delete this login user? This action cannot be undone.', async () => {
                 try {
-                    await deleteDoc(doc(db, `artifacts/${appIdEnv}/public/loginUsers`, docId));
+                    // Now directly uses 'loginUsers' as a top-level collection
+                    await deleteDoc(doc(db, `loginUsers`, docId));
                     showSuccess('Login user successfully deleted!');
                     showLoginUsers(); // Refresh the list
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error deleting login user:", error);
                     showError("Error deleting login user. Please try again.");
                 }
@@ -2341,7 +2362,8 @@
                     }, { merge: true }); // Use merge to add/update array
                     showSuccess('Name added to dropdowns!');
                     document.getElementById('addDropdownNameForm').reset();
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error adding dropdown name:", error);
                     showError("Error adding dropdown name. Please try again.");
                 }
@@ -2386,7 +2408,8 @@
                     await updateDoc(dropdownNamesDocRef, { names: newNames });
                     showSuccess('Name successfully deleted from dropdowns!');
                     showDropdownNames(); // Refresh the list
-                } catch (error) {
+                }
+                catch (error) {
                     console.error("Error deleting dropdown name:", error);
                     showError("Error deleting dropdown name. Please try again.");
                 }
@@ -2439,13 +2462,15 @@
             }
 
             try {
-                const userRef = doc(db, `artifacts/${appIdEnv}/public/loginUsers`, user.id);
+                // Now directly uses 'loginUsers' as a top-level collection
+                const userRef = doc(db, `loginUsers`, user.id);
                 await updateDoc(userRef, { password: newPassword });
                 forgotPasswordModal.hide();
                 showSuccess('Password reset successfully! You can now log in with your new password.');
                 document.getElementById('loginForm').reset();
                 document.getElementById('loginError').style.display = 'none';
-            } catch (error) {
+            }
+            catch (error) {
                 console.error("Error resetting password:", error);
                 showError("Error resetting password. Please try again.");
             }
